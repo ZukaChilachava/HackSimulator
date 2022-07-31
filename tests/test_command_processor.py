@@ -125,7 +125,7 @@ def test_comp_assignment():
     assert processor.d_register == 7
 
     processor.execute_current()
-    assert processor.a_register == 32760
+    assert processor.a_register == -8
 
     processor.execute_current()
     assert processor.d_register == -1
@@ -137,10 +137,10 @@ def test_comp_assignment():
     assert processor.d_register == 1
 
     processor.execute_current()
-    assert processor.ram_state.read(32760) == -32760
+    assert processor.ram_state.read(32760) == 8
 
     processor.execute_current()
-    assert processor.ram_state.read(32760) == 32760
+    assert processor.ram_state.read(32760) == -8
 
     processor.execute_current()
     assert processor.a_register == 2

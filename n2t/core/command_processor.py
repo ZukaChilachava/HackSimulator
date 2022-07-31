@@ -21,6 +21,7 @@ class CommandProcessor:
             comp: int = self.__get_comp_value(
                 current_instruction[3], current_instruction[4:10]
             )
+
             self.__write_to_dest(current_instruction[10:13], comp)
             self.stack_pointer = self.__get_jump_location(
                 current_instruction[13:16], comp
@@ -62,12 +63,12 @@ class CommandProcessor:
                 self.a_register if a == "0" else self.ram_state.read(self.a_register)
             )
         elif comp == "001101":
-            result = 32767 - self.d_register
+            result = -1 * self.d_register - 1
         elif comp == "110001":
             result = (
-                32767 - self.a_register
+                -1 * self.a_register - 1
                 if a == "0"
-                else 32767 - self.ram_state.read(self.a_register)
+                else -1 * self.ram_state.read(self.a_register) - 1
             )
 
         elif comp == "001111":
@@ -154,4 +155,8 @@ class CommandProcessor:
         return int(self.__get_current_instruction_value(), 2)
 
     def __get_current_instruction_value(self) -> str:
-        return self.instructions[self.stack_pointer]
+        return (
+            "0000000000000000"
+            if self.stack_pointer >= len(self.instructions)
+            else self.instructions[self.stack_pointer]
+        )
